@@ -28,10 +28,10 @@ batchSize = 512 * 64
 repeats = 1
 internal_iterations = 500000
 threads = 1
-double_ring = True
+double_ring = False
 wallet = sys.argv[1] if len(sys.argv) >= 2 else None
 pool_addr = sys.argv[2] if len(sys.argv) >= 3 else 'https://server1.whalestonpool.com'
-APP_VERSION = '1.1.1'
+APP_VERSION = '1.1.2'
 
 def check_wallet(pool_address, wallet):
     try:
@@ -339,7 +339,7 @@ def miner_job(index, deviceId):
         else:
             postReport(config['wallet'], config['giver'], res_random, config['expire'], config['seed'])
     else:
-        logging.info("[" + str(index) +"/"+str(deviceId)+ "]: Job not found valid share")
+        logging.debug("[" + str(index) +"/"+str(deviceId)+ "]: Job not found valid share")
     # logging.info("[" + str(index) +"/"+str(deviceId)+ "]: Job ended")
 
 def buildHash(data):
