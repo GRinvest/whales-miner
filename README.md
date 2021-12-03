@@ -1,0 +1,1 @@
+# Whales Miner (Hive-optimized whales pool miner)

@@ -31,7 +31,7 @@ threads = 1
 double_ring = False
 wallet = sys.argv[1] if len(sys.argv) >= 2 else None
 pool_addr = sys.argv[2] if len(sys.argv) >= 3 else 'https://server1.whalestonpool.com'
-APP_VERSION = '1.1.3' # keep in sync with hive config
+APP_VERSION = '1.1.4' # keep in sync with hive config
 
 def check_wallet(pool_address, wallet):
     try:
@@ -150,7 +150,9 @@ def postReport(wallet, giver, random, expire, seed):
 
 # Code
 platforms = cl.get_platforms()
-devices = cl.get_platforms()[0].get_devices()
+devices = []
+for p in cl.get_platforms():
+    devices = devices + p.get_devices()
 ctx = cl.Context(devices)
 src = ''
 # with open(os.path.join(os.path.dirname(__file__),"kernels/sha256_util.cl"), "r") as rf:
