@@ -1,0 +1,10 @@
+.env/
+__pycache__/
+build/
+dist/
+.vscode/
+.pytest_cache/
+.DS_Store
+state.json
+stats.json
+hive-dist/
