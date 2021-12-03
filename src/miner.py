@@ -312,7 +312,6 @@ def miner_job(index, deviceId):
     
         res = config['complexity']
         if np.sum(output_1) > 0 and np.sum(output_1_random) > 0:
-            print(res.hex(), output_1.tobytes().hex())
             if compare(output_1.tobytes(), res) < 0:
                 found = True
                 res = output_1.tobytes()
