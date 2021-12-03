@@ -289,8 +289,8 @@ def miner_job(index, deviceId):
         read2 = cl.enqueue_copy(queue[deviceId], output_1_random, cl_output_1_random, is_blocking=False)
         queue[deviceId].flush()
 
-        read1.wait()
-        read2.wait()
+        while read1.get_info(cl.event_info.COMMAND_EXECUTION_STATUS) != cl.command_execution_status.COMPLETE or read2.get_info(cl.event_info.COMMAND_EXECUTION_STATUS) != cl.command_execution_status.COMPLETE:
+            time.sleep(0.05)
         
         mined += internal_iterations * batchSize
         mined_dev[str(deviceId)] = mined_dev.get(str(deviceId),0) + internal_iterations * batchSize
@@ -304,8 +304,9 @@ def miner_job(index, deviceId):
             read1 = cl.enqueue_copy(queue[deviceId], output_2, cl_output_2)
             read2 = cl.enqueue_copy(queue[deviceId], output_2_random, cl_output_2_random)
             queue[deviceId].flush()
-            read1.wait()
-            read2.wait()
+
+            while read1.get_info(cl.event_info.COMMAND_EXECUTION_STATUS) != cl.command_execution_status.COMPLETE or read2.get_info(cl.event_info.COMMAND_EXECUTION_STATUS) != cl.command_execution_status.COMPLETE:
+                time.sleep(0.05)
             # logging.info("[" + str(index) + "/"+str(deviceId)+"]: Read (2) " + str(( time.time() - wait_start)))
             mined += internal_iterations * batchSize
             mined_dev[str(deviceId)] = mined_dev.get(str(deviceId),0) + internal_iterations * batchSize

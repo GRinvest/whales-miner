@@ -5,8 +5,6 @@ import logging
 import requests
 import numpy as np
 
-from utils import exponential_backoff_delay, pluralize
-
 log = logging.getLogger('pool')
 
 class PoolClient:
@@ -34,18 +32,3 @@ class PoolClient:
         data['prefix'] = np.random.randint(0, 255, 16, np.uint8).tobytes()
         data['complexity'] = bytes.fromhex(data['complexity'])
         return data
-
-
-    async def run(self) -> None:
-        delay, reset_delay = exponential_backoff_delay(10, 60, -1)
-        while True:
-            try:
-                task = self.load_next_task()
-                reset_delay()
-                yield task
-                await asyncio.sleep(20)
-            except Exception as err:
-                log.warn("Unknown error")
-                log.exception(err)
-                await delay()
-            
